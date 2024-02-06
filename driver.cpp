@@ -63,7 +63,7 @@ int main(){
 
 
 /* Planning
-
+test
 Step 1: take user input in main function
     - input will be a string and some strings will have parameters like last time
     - could try using similar method to last time, although MUST avoid mem leaks
