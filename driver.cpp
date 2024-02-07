@@ -7,6 +7,9 @@ using namespace std;
 
 int main(){
     
+    // Create the linked list
+    linked_list* Big_Bad_Wolf = new linked_list();
+
     while (true){
         // Receive User input
         string user_input = "";
@@ -25,29 +28,35 @@ int main(){
             // Use the space between numbers to distinguish the 2 parameters
             double parameter_1 = stod(numbers_only.substr(0,user_input.find(' ')));
             double parameter_2 = stod(numbers_only.substr(numbers_only.find(' ')+1));
+
+            Big_Bad_Wolf->spawn_player(parameter_1, parameter_2);
         }
 
         else if (user_input.find("TIME") != string::npos) {
             string numbers_only = user_input.substr(first_digit);
             double parameter = stod(numbers_only);
+            Big_Bad_Wolf->time_function(parameter);
 
         }
 
         else if (user_input.find("LUNCH") != string::npos) {
-            
+            Big_Bad_Wolf->lunch_function();
         }
 
         else if (user_input.find("NUM") != string::npos) {
+            Big_Bad_Wolf->num_function();
             
         }
 
         else if (user_input.find("PRT") != string::npos) {
             string numbers_only = user_input.substr(first_digit);
             double parameter = stod(numbers_only);
-            
+            Big_Bad_Wolf->prt_function(parameter);
         }
 
         else if (user_input.find("OVER") != string::npos) {
+            Big_Bad_Wolf->over_function();
+            delete Big_Bad_Wolf;
             exit(0);
         }
 
@@ -62,19 +71,7 @@ int main(){
 }
 
 
-/* Planning
-test
-Step 1: take user input in main function
-    - input will be a string and some strings will have parameters like last time
-    - could try using similar method to last time, although MUST avoid mem leaks
-    - call appropriate function using case switch, could also hardcode using multiple if statements?
-    - parameters will be double!
-
-Step 2: Spawn function
-    - Called on "SPAWN" with two parameters which must both be > 0
-    - Create a new node with data being x and y positions
-    - link the  linked list appropriately by keeping a current node, head and tail in public?
-    - output "success" or "failure"
+/* Notes to ask TA
 
 Step 3: Time Function
     - called on "TIME" with parameter t
