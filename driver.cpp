@@ -18,10 +18,6 @@ int main(){
         // Receive User input
         string user_input = "";
         getline (cin,user_input);
-
-        // Find the first digit in string for later use to extract parameter
-        // char const* digits = "0123456789";
-        // size_t const first_digit = user_input.find_first_of(digits);
         
         // Call appropriate functions
         if (user_input.find("SPAWN") != string::npos) {
@@ -48,7 +44,6 @@ int main(){
 
         else if (user_input.find("NUM") != string::npos) {
             Big_Bad_Wolf->num_function();
-            
         }
 
         else if (user_input.find("PRT") != string::npos) {

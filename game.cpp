@@ -88,6 +88,7 @@ void linked_list::time_function(double t){
 
     // Output
     cout << "num of players: " << num_of_players << endl;
+    temp = nullptr;
 }
 
 void linked_list::lunch_function(){
@@ -106,6 +107,7 @@ void linked_list::lunch_function(){
 
     // Output
     cout << "num of players: " << num_of_players << endl;
+    temp = nullptr;
 }
 
 void linked_list::num_function(){
@@ -138,6 +140,7 @@ void linked_list::prt_function(double d){
         }
 
         if(player_count == 0){cout << "no players found";}
+        temp = nullptr;
         // End the line after printing
         cout << endl;
     }
@@ -147,9 +150,7 @@ void linked_list::over_function(){
 
     // Check if LL is empty (i.e no players are alive)
     if (empty_list){cout << "wolf wins" << endl;}
-
     else{cout << "players win" << endl;}
-
 }
 
 void linked_list::remove_from_game(Node* node){
