@@ -8,8 +8,7 @@ using namespace std;
 Node::Node(){
     next = nullptr;
     prev = nullptr;
-    data_x = 0.0;
-    data_y = 0.0;
+
 }
 
 // Constructor
@@ -83,8 +82,8 @@ void linked_list::time_function(double t){
         // Remove the player if they are cheating
         if (temp->data_x <= 0 || temp->data_y <= 0){remove_from_game(temp);} 
         
-        cout << "error" << endl;
-        temp = temp->next;
+        if (head == nullptr){break;}
+        else {temp = temp->next;}
     }
 
     // Output
@@ -99,9 +98,10 @@ void linked_list::lunch_function(){
     while (temp != nullptr){
         
         // Remove the player if they are <1 distance to the wolf
-        if (sqrt( pow((temp->data_x),2) + pow((temp->data_x),2)) < 1){remove_from_game(temp);} 
+        if ((sqrt( pow((temp->data_x),2) + pow((temp->data_y),2))) < 1){remove_from_game(temp);} 
 
-        temp = temp->next;
+        if (head == nullptr){break;}
+        else {temp = temp->next;}
     }
 
     // Output
@@ -123,25 +123,25 @@ void linked_list::prt_function(double d){
     else{
         // Create temp node to itterate through LL aswell as counter
         Node* temp = head;
+        int player_count = num_of_players;
 
         while (temp != nullptr){
 
             // Check if euclidian distance is < d, if so output coords
-            if (sqrt( pow((temp->data_x),2) + pow((temp->data_x),2)) < d){
+            if ((sqrt( pow((temp->data_x),2) + pow((temp->data_y),2))) < d){
             
                 // Output x and y data in proper form
-                cout << temp->data_x << " "  << temp->data_y << " ";
-            } 
-            
+                cout << temp->data_x <<  " "  << temp->data_y << " ";
+            } else{player_count--;}
+
             temp = temp->next;
         }
-        
+
+        if(player_count == 0){cout << "no players found";}
         // End the line after printing
         cout << endl;
     }
 }
-
-
 
 void linked_list::over_function(){
 
@@ -161,26 +161,27 @@ void linked_list::remove_from_game(Node* node){
         head = nullptr;
         tail = nullptr;
         empty_list = true;
-        cout << "only node" << endl;
-    
-    } 
-    
-    // Check if node is head of LL
-    else if (node == head){head = node->next;} 
-    
-    // Check if node is at the tail
-    else if (node == tail){tail = node->prev;}
+        num_of_players--;
+        delete node;
+        
+    } else{
+        
+        // Check if node is head of LL
+        if (node == head){head = node->next; head->prev = nullptr;} 
+        
+        // Check if node is at the tail
+        else if (node == tail){tail = node->prev; tail->next = nullptr;}
 
-    // Node is somewhere inbetween
-    else{
+        // Node is somewhere inbetween
+        else{
 
-        // Link previous node to next
-        node->next->prev = node->prev;
-        node->prev->next = node->next;
-
+            // Link previous node to next
+            node->next->prev = node->prev;
+            node->prev->next = node->next;
+        }
+        
+        // Deallocate the node and decrement number of players
+        delete node;
+        num_of_players--;
     }
-    
-    // Deallocate the node and decrement number of players
-    delete node;
-    num_of_players--;
 }
