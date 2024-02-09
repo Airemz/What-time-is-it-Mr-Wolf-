@@ -4,17 +4,20 @@
 #include <cmath>
 
 using namespace std;
-// Constructor, no need for destructor as this gets deallocated with LL
+// Constructor, no need for destructor as this gets deallocated in remove from game member function
 Node::Node(){
     next = nullptr;
     prev = nullptr;
-
 }
+
+//////////////////////////////////////////////////////
+//////////// Linked List Member Functions ////////////
+//////////////////////////////////////////////////////
 
 // Constructor
 linked_list::linked_list(){
     // Initialize head and tail to nullptrs so random memory isn't allocated
-    // Delcare the list as empty
+    // Delcare the list as empty and set num of players
     head = nullptr;
     tail = nullptr;
     empty_list = true;
@@ -23,7 +26,7 @@ linked_list::linked_list(){
 
 // Destructor
 linked_list::~linked_list(){
-    // Delete the linked list starting from head, move head to the next node each time 
+    // Delete the linked list starting from head, move head to the next node each time stopping when head reaches nullptr
     while( head != nullptr ) {
         Node* current = head;
         head = head->next;
@@ -32,7 +35,6 @@ linked_list::~linked_list(){
     }
 }
 
-// Member functions for commands
 void linked_list::spawn_player(double x_pos, double y_pos){
 
     // Check for any cheaters
@@ -50,7 +52,7 @@ void linked_list::spawn_player(double x_pos, double y_pos){
 
         cout << "success" << endl;
 
-        // If LL is empty set head and tail, else link new node to tail and prev, and set new tail
+        // If LL is empty set node as head and tail
         if (head == nullptr){
 
             head = new_player;
@@ -58,7 +60,7 @@ void linked_list::spawn_player(double x_pos, double y_pos){
 
         } else{
             
-            // Add the new node to beginning of LL
+            // Add the new node to beginning of LL, moving the head and setting next and previous
             new_player->next = head;
             head->prev = new_player;
             head = new_player;
@@ -73,7 +75,7 @@ void linked_list::time_function(double t){
 
     while (temp != nullptr){
 
-        // Update x and y values according to manual. Need to store old data_x as the value is being updated 
+        // Update x and y values according to manual. Need to store old data_x as the value is being overwrited 
         double store_x = temp->data_x;
 
         temp->data_x -= t * cos(atan2(temp->data_y,temp->data_x));
@@ -82,11 +84,12 @@ void linked_list::time_function(double t){
         // Remove the player if they are cheating
         if (temp->data_x <= 0 || temp->data_y <= 0){remove_from_game(temp);} 
         
+        // Check if list is empty i.e the head is empty after removing the last node. If not move on to next node.
         if (head == nullptr){break;}
         else {temp = temp->next;}
     }
 
-    // Output
+    // Output and deallocate the temp node
     cout << "num of players: " << num_of_players << endl;
     temp = nullptr;
 }
@@ -98,32 +101,33 @@ void linked_list::lunch_function(){
 
     while (temp != nullptr){
         
-        // Remove the player if they are <1 distance to the wolf
+        // Remove the player if they are <1 distance to the wolf using the euclidian formula
         if ((sqrt( pow((temp->data_x),2) + pow((temp->data_y),2))) < 1){remove_from_game(temp);} 
 
+        // Check if list is empty i.e the head is empty after removing the last node. If not move on to next node.
         if (head == nullptr){break;}
         else {temp = temp->next;}
     }
 
-    // Output
+    // Output and deallocate the temp node
     cout << "num of players: " << num_of_players << endl;
     temp = nullptr;
 }
 
 void linked_list::num_function(){
 
-    // Output
+    // Output the private member num of players
     cout << "num of players: " << num_of_players << endl;
 
 }
 
 void linked_list::prt_function(double d){
 
-    // Check if list is empty
+    // Check if list is empty using private variable
     if (empty_list){cout << "no players found" << endl;}
 
     else{
-        // Create temp node to itterate through LL aswell as counter
+        // Create temp node to itterate through LL aswell as player counter. The player counter is used to check if there are no players found within the distance specified. The players still exist so we shouldn't decrease the num_of_players however we must decrement a temp var of the same value.
         Node* temp = head;
         int player_count = num_of_players;
 
@@ -139,16 +143,20 @@ void linked_list::prt_function(double d){
             temp = temp->next;
         }
 
+        // If all players have been accounted for but none are within the distance specified provide the following output. 
         if(player_count == 0){cout << "no players found";}
+
+        // Deallocate the temp node
         temp = nullptr;
-        // End the line after printing
+
+        // End the line after printing all coords or no players found
         cout << endl;
     }
 }
 
 void linked_list::over_function(){
 
-    // Check if LL is empty (i.e no players are alive)
+    // Check if LL is empty (i.e no players are alive) then wolf wins, else players win
     if (empty_list){cout << "wolf wins" << endl;}
     else{cout << "players win" << endl;}
 }
@@ -158,7 +166,7 @@ void linked_list::remove_from_game(Node* node){
     // Check if node is the only item in LL
     if (node == head && node == tail){
         
-        // Reset the head and tail pointers
+        // Reset the head and tail pointers and private members
         head = nullptr;
         tail = nullptr;
         empty_list = true;
@@ -167,16 +175,16 @@ void linked_list::remove_from_game(Node* node){
         
     } else{
         
-        // Check if node is head of LL
+        // Check if node is head of LL, if so, move head and set head prev
         if (node == head){head = node->next; head->prev = nullptr;} 
         
-        // Check if node is at the tail
+        // Check if node is at the tail, if so move tail and set tail next
         else if (node == tail){tail = node->prev; tail->next = nullptr;}
 
         // Node is somewhere inbetween
         else{
 
-            // Link previous node to next
+            // Link previous node to next node 
             node->next->prev = node->prev;
             node->prev->next = node->next;
         }

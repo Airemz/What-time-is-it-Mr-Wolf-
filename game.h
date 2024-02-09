@@ -1,9 +1,12 @@
 // define your classes here...
 #include <iostream>
 #include <string>
+
 class Node{
     public:
         double data_x, data_y;
+
+        // Doubly linked list for fun 
         Node *next, *prev;
         
         // Constructor
@@ -13,6 +16,8 @@ class Node{
 class linked_list {
     private:
         Node *head, *tail;
+        
+        // Tracking when the list is empty and num of players for many member functions
         bool empty_list;
         unsigned int num_of_players;
 

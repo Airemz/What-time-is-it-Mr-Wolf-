@@ -3,17 +3,19 @@
 #include <string>
 #include "game.h"
 
-//./game.out <inputs/test01.in
+// Functions for testing
+// ./game.out <inputs/test01.in
 // ./game.out <inputs/gigantica.in > gigantica.out
-// diff inputs/gigantica.in output gigantica_real.out
+// diff outputs/gigantica.out outputs/gigantica_real.out
 
 using namespace std;
 
 int main(){
     
-    // Create the linked list
+    // Create a pointer to a linked list class
     linked_list* Big_Bad_Wolf = new linked_list();
 
+    // Create an infinite while loop for the game which can only be exited with "OVER" command
     while (true){
         // Receive User input
         string user_input = "";
@@ -33,6 +35,7 @@ int main(){
         }
 
         else if (user_input.find("TIME") != string::npos) {
+            // Extract numbers and parameter
             string numbers_only = user_input.substr(user_input.find(' ')+1);
             double parameter = stod(numbers_only);
             Big_Bad_Wolf->time_function(parameter);
@@ -47,6 +50,7 @@ int main(){
         }
 
         else if (user_input.find("PRT") != string::npos) {
+            // Extract numbers and parameter
             string numbers_only = user_input.substr(user_input.find(' ')+1);
             double parameter = stod(numbers_only);
             Big_Bad_Wolf->prt_function(parameter);
@@ -54,14 +58,10 @@ int main(){
 
         else if (user_input.find("OVER") != string::npos) {
             Big_Bad_Wolf->over_function();
+            
+            // Call the linked list destructor and exit the program
             delete Big_Bad_Wolf;
             exit(0);
         }
     }
 }
-
-
-/* Notes to ask TA
-
-
-*/ 
