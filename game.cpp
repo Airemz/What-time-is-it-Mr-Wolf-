@@ -4,6 +4,7 @@
 #include <cmath>
 
 using namespace std;
+
 // Constructor, no need for destructor as this gets deallocated in remove from game member function
 Node::Node(){
     next = nullptr;
@@ -84,8 +85,8 @@ void linked_list::time_function(double t){
         // Remove the player if they are cheating
         if (temp->data_x <= 0 || temp->data_y <= 0){remove_from_game(temp);} 
         
-        // Check if list is empty i.e the head is empty after removing the last node. If not move on to next node.
-        if (head == nullptr){break;}
+        // Check if list is empty i.e the head is empty after removing the last node or if the next node is a nullptr. If not move on to next node.
+        if (head == nullptr || head->next == nullptr){break;}
         else {temp = temp->next;}
     }
 
@@ -104,8 +105,8 @@ void linked_list::lunch_function(){
         // Remove the player if they are <1 distance to the wolf using the euclidian formula
         if ((sqrt( pow((temp->data_x),2) + pow((temp->data_y),2))) < 1){remove_from_game(temp);} 
 
-        // Check if list is empty i.e the head is empty after removing the last node. If not move on to next node.
-        if (head == nullptr){break;}
+        // Check if list is empty i.e the head is empty after removing the last node or if the next node is a nullptr. If not move on to next node.
+        if (head == nullptr || head->next == nullptr){break;}
         else {temp = temp->next;}
     }
 
@@ -127,7 +128,7 @@ void linked_list::prt_function(double d){
     if (empty_list){cout << "no players found" << endl;}
 
     else{
-        // Create temp node to itterate through LL aswell as player counter. The player counter is used to check if there are no players found within the distance specified. The players still exist so we shouldn't decrease the num_of_players however we must decrement a temp var of the same value.
+        // Create temp node to itterate through LL aswell as player counter. The player counter is used to check if there are no players found within the distance specified. The players still exist so we shouldn't decrease the private variable, num_of_players however we must decrement a temp var of the same value to check if all players have been accounted for.
         Node* temp = head;
         int player_count = num_of_players;
 
