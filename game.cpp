@@ -86,7 +86,7 @@ void linked_list::time_function(double t){
         if (temp->data_x <= 0 || temp->data_y <= 0){remove_from_game(temp);} 
         
         // Check if list is empty i.e the head is empty after removing the last node or if the next node is a nullptr. If not move on to next node.
-        if (head == nullptr || head->next == nullptr){break;}
+        if (head == nullptr){break;}
         else {temp = temp->next;}
     }
 
@@ -106,7 +106,7 @@ void linked_list::lunch_function(){
         if ((sqrt( pow((temp->data_x),2) + pow((temp->data_y),2))) < 1){remove_from_game(temp);} 
 
         // Check if list is empty i.e the head is empty after removing the last node or if the next node is a nullptr. If not move on to next node.
-        if (head == nullptr || head->next == nullptr){break;}
+        if (head == nullptr){break;}
         else {temp = temp->next;}
     }
 
